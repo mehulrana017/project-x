@@ -7,9 +7,17 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Node modules
 node_modules
+
+# Vite build output
+dist
 dist-ssr
+
+# Local environment files
 *.local
+
+# Yarn lock file
 yarn.lock
 
 # Editor directories and files
@@ -22,3 +30,43 @@ yarn.lock
 *.njsproj
 *.sln
 *.sw?
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of `npm pack`
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variables file
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# MacOS system files
+._*
+
+# Build directory for Vite
+.vite
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Coverage directory used by tools like Jest
+coverage
+
+# Optional stylelint cache
+.stylelintcache
+
+# Parcel cache directory
+.cache
