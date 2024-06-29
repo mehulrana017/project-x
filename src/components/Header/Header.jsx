@@ -1,9 +1,28 @@
 import { useUser } from "@/hooks/Hooks";
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { useToast } from "../ui/use-toast";
+import { UserContext } from "@/context/UserContext";
+import { AlertContext } from "@/context/AlertContext";
 
 const Header = () => {
   const { user } = useUser();
+  const { toast } = useToast()
+  const { dispatchUser } = useContext(UserContext);
+  const { dispatchAlert } = useContext(AlertContext);
+
+  const handleLogout = async()=>{
+
+    const res = await fetch('http://localhost:3000/api/v1/users/logout')
+    if(res) {
+      dispatchUser({ type: "LOG_OUT" });
+      toast({
+        title: "Status",
+        description: "Logged Out",
+      })
+    }
+  }
+
   return (
     <nav
       style={{ borderBottom: "1px solid #BA9DF8" }}
@@ -25,7 +44,7 @@ const Header = () => {
         </Link>
         {user && (
           <button
-            onClick={()=>{}}
+            onClick={handleLogout}
             className=" right-10 bg-red-700 text-white font-medium text-lg px-5 h-10 w-28 rounded-3xl"
             type="submit"
           >

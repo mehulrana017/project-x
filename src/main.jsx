@@ -7,6 +7,7 @@ import AlertProvider from "./context/AlertContext";
 import Alert from "./components/Alert";
 import Hooks from "./hooks/Hooks";
 import Loader from "./components/Loader";
+import { Toaster } from "./components/ui/toaster";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -14,6 +15,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <UserProvider>
         <App />
         <Loader />
+        <Toaster />
         <Alert />
         <Hooks />
       </UserProvider>
