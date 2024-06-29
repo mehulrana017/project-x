@@ -1,24 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useUser } from "../hooks/Hooks";
 import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import AddDialog from "@/components/AddDialog";
 
-function Users() {
-  const [users, setUsers] = useState([]);
+function Products() {
+  const addDialogRef = useRef();
+  const [products, setProducts] = useState([]);
   const [error, setError] = useState(false);
   const { user, dispatchUser } = useUser();
-
-  console.log('user', user)
 
   useEffect(() => {
     const fetchUsers = async () => {
       dispatchUser({ type: "LOADING" });
       try {
-        const res = await fetch("http://localhost:5000/api/v1/users");
+        const res = await fetch("http://localhost:3000/api/v1/products");
 
         const result = await res.json();
 
         if (res.ok) {
-          setUsers(result.data);
+          setProducts(result.data);
         } else {
           throw new Error();
         }
@@ -34,8 +35,12 @@ function Users() {
   }, []);
 
   return (
-    <div className="space-y-3 grid mt-20 px-10 max-w-2xl mx-auto">
-      {users?.map((user) => {
+    <>
+      <AddDialog ref={addDialogRef} />
+
+      <div className="space-y-3 grid mt-20 px-10 max-w-2xl mx-auto">
+        <Button onClick={()=>addDialogRef.current.open()}>Add Furniture</Button>
+        {/* {products?.map((user) => {
         return (
           <Link
             to={`/users/${user.username}`}
@@ -47,9 +52,10 @@ function Users() {
           </Link>
         );
       })}
-      {error && "Something went wrong"}
-    </div>
+      {error && "Something went wrong"} */}
+      </div>
+    </>
   );
 }
 
-export default Users;
+export default Products;

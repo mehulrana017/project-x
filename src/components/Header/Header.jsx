@@ -20,6 +20,7 @@ const Header = () => {
         title: "Status",
         description: "Logged Out",
       })
+      window.location.href = '/login'
     }
   }
 

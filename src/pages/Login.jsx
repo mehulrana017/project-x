@@ -10,6 +10,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormLabel, FormControl, FormMessage, FormField, FormDescription } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Cookies from 'js-cookie';
+
 
 // Define the schema using Zod
 const loginSchema = z.object({
@@ -52,7 +54,7 @@ function Login() {
       }
 
       // Save the token in local storage or cookie
-      localStorage.setItem("token", result.token);
+      Cookies.set('token', result.token, { expires: 7 }); 
 
       setTimeout(() => {
         dispatchAlert({

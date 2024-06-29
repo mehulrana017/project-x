@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 export const Home = () => {
   const { user } = useUser();
 
-  console.log('usesr', user)
   return (
     <div className="flex justify-center mt-20">
       <div className=" space-y-4">
