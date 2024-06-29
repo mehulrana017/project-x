@@ -16,6 +16,10 @@ git clone https://github.com/mehulrana017/project-x.git
 In your terminal, run:
 
 ```
+nvm use
+```
+
+```
 yarn
 ```
 

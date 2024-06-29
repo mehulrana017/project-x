@@ -5,11 +5,11 @@ import Profile from "../components/Profile";
 function Dashboard() {
   const { user } = useUser();
 
-  useEffect(() => {
-    if (!user) {
-      window.location.href = "/login";
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (!user) {
+  //     window.location.href = "/login";
+  //   }
+  // }, [user]);
 
   if (user) {
     return (

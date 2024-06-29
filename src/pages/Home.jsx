@@ -13,8 +13,6 @@ export const Home = () => {
           Welcome home, {user ? user.username : "Buddy"}!
         </h1>
 
-        <Button />
-
         {!user && (
           <Link
             className="block mt-5 w-full bg-blue-700 text-center text-white font-medium text-lg

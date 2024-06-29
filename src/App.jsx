@@ -8,11 +8,12 @@ import Edit from "./pages/Edit";
 import User from "./pages/User";
 import Notfound from "./pages/Notfound";
 import Users from "./pages/Users";
+import Header from "./components/Header";
 
 function App() {
   return (
     <Router>
-      <Navbar />
+      <Header />
       <Routes>
         <Route index element={<Home />} />
         <Route path="/login" element={<Login />} />

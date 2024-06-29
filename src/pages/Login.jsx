@@ -1,13 +1,24 @@
-import { useState, useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { UserContext } from "../context/UserContext";
 import { AlertContext } from "../context/AlertContext";
-import { useAppState, useUser } from "../hooks/Hooks";
+import { useUser } from "../hooks/Hooks";
 import { Link } from "react-router-dom";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Form, FormItem, FormLabel, FormControl, FormMessage, FormField, FormDescription } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
+// Define the schema using Zod
+const loginSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+});
 
 function Login() {
   const { dispatchUser } = useContext(UserContext);
   const { dispatchAlert } = useContext(AlertContext);
-
   const { user } = useUser();
 
   useEffect(() => {
@@ -16,17 +27,16 @@ function Login() {
     }
   }, [user]);
 
-  const [userDetails, setUserDetails] = useState({
-    email: "",
-    password: "",
+  const methods = useForm({
+    resolver: zodResolver(loginSchema),
   });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const { control, handleSubmit, formState: { errors } } = methods;
 
+  const onSubmit = async (userDetails) => {
     try {
       dispatchUser({ type: "LOADING" });
-      const res = await fetch("http://localhost:5000/api/v1/auth/login", {
+      const res = await fetch("http://localhost:3000/api/v1/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -34,17 +44,14 @@ function Login() {
         body: JSON.stringify(userDetails),
       });
 
-      setUserDetails({
-        username: "",
-        email: "",
-        password: "",
-      });
-
       const result = await res.json();
 
       if (!result.success) {
-        throw new Error(result.error);
+        throw new Error(result.message || "Login failed");
       }
+
+      // Save the token in local storage or cookie
+      localStorage.setItem("token", result.token);
 
       setTimeout(() => {
         dispatchAlert({
@@ -52,12 +59,10 @@ function Login() {
           payload: "Log in successful",
           variant: "Success",
         });
-        
-        dispatchUser({ type: "LOG_IN", payload: result.data });
+
+        dispatchUser({ type: "LOG_IN", payload: result.user });
         window.location.href = "/profile";
       }, 3000);
-
-      console.log(result);
     } catch (err) {
       dispatchAlert({
         type: "SHOW",
@@ -65,19 +70,7 @@ function Login() {
         variant: "Warning",
       });
       dispatchUser({ type: "ERROR" });
-      console.log(err);
     }
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    setUserDetails((prevState) => {
-      return {
-        ...prevState,
-        [name]: value,
-      };
-    });
   };
 
   return (
@@ -85,31 +78,52 @@ function Login() {
       <div className="mt-20">
         <h1 className="font-bold text-3xl mb-5">Log in</h1>
         <p className="mb-8">Enter your details below to log in</p>
-        <form className="space-y-3" onSubmit={handleSubmit}>
-          <input
-            className="block py-2 px-5 rounded-lg border-2 border-slate-400 focus:border-purple-700 outline-none transition-all duration-200"
-            type="email"
-            name="email"
-            placeholder="Email address"
-            value={userDetails.email}
-            onChange={handleChange}
-          />
-
-          <input
-            className="block py-2 px-5 rounded-lg border-2 border-slate-400 focus:border-purple-700 outline-none transition-all duration-200"
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={userDetails.password}
-            onChange={handleChange}
-          />
-          <button
-            className="block w-full bg-purple-700 text-white font-medium text-lg py-2 px-5 rounded-3xl"
-            type="submit"
-          >
-            Log in
-          </button>
-        </form>
+        <Form {...methods}>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-[27px] mt-[8px]">
+            <FormField
+              control={control}
+              name="email"
+              render={({ field }) => (
+                <FormItem className="text-darkblue font-medium text-[12px]">
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      className="bg-primary-0 rounded transition duration-300 focus-within hover:border-1 hover:border-solid h-[23px] hover:border-primary-500 hover:bg-primary-0 hover:shadow-custom"
+                      placeholder="Email address"
+                      {...field}
+                    />
+                  </FormControl>
+                  {errors.email && <FormMessage>{errors.email.message}</FormMessage>}
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="password"
+              render={({ field }) => (
+                <FormItem className="text-darkblue font-medium text-[12px]">
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      className="bg-primary-0 rounded transition duration-300 focus-within hover:border-1 hover:border-solid h-[23px] hover:border-primary-500 hover:bg-primary-0 hover:shadow-custom"
+                      placeholder="Minimum 8 characters"
+                      maxLength={16}
+                      {...field}
+                    />
+                  </FormControl>
+                  {errors.password && <FormMessage>{errors.password.message}</FormMessage>}
+                </FormItem>
+              )}
+            />
+            <Button
+              className="h-[40px] w-full mt-2 bg-purple-700 text-white font-medium text-lg py-2 px-5 rounded-3xl"
+              type="submit"
+            >
+              Log in
+            </Button>
+          </form>
+        </Form>
         <p className="mt-5">
           Or <Link to="/register">Register</Link>
         </p>

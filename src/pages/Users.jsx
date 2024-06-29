@@ -8,6 +8,8 @@ function Users() {
   const { isLoading, isError } = useAppState();
   const { user, dispatchUser } = useUser();
 
+  console.log('user', user)
+
   useEffect(() => {
     const fetchUsers = async () => {
       dispatchUser({ type: "LOADING" });
