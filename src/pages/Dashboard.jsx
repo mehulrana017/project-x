@@ -5,17 +5,17 @@ import Profile from "../components/Profile";
 function Dashboard() {
   const { user } = useUser();
 
-  // useEffect(() => {
-  //   if (!user) {
-  //     window.location.href = "/login";
-  //   }
-  // }, [user]);
+  useEffect(() => {
+    if (!user) {
+      window.location.href = "/login";
+    }
+  }, [user]);
 
   if (user) {
     return (
       <div className="flex justify-center mt-20">
         <Profile
-          username={user.username}
+          username={user.name}
           email={user.email}
           password={user.password}
         />

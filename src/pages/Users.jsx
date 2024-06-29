@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useAppState, useUser } from "../hooks/Hooks";
+import { useUser } from "../hooks/Hooks";
 import { Link } from "react-router-dom";
 
 function Users() {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(false);
-  const { isLoading, isError } = useAppState();
   const { user, dispatchUser } = useUser();
 
   console.log('user', user)

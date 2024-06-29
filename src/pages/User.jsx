@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { useAppState, useUser } from "../hooks/Hooks";
+import {  useParams } from "react-router-dom";
+import {  useUser } from "../hooks/Hooks";
 
 function User() {
   const { username } = useParams();

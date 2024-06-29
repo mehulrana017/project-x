@@ -23,8 +23,6 @@ function Profile({ username, email, password }) {
         <p className="text-center font-semibold text-xl">{username}</p>{" "}
         <Link to="/profile/edit" className="p-2 bg-gray-300 rounded-lg">Edit</Link>
       </div>
-      <p>Email: {email}</p>
-      {password}
       <p className="h-96"></p>
     </div>
   );

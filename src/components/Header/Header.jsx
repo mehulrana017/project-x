@@ -1,7 +1,9 @@
+import { useUser } from "@/hooks/Hooks";
 import React from "react";
 import { Link } from "react-router-dom";
 
 const Header = () => {
+  const { user } = useUser();
   return (
     <nav
       style={{ borderBottom: "1px solid #BA9DF8" }}
@@ -21,15 +23,15 @@ const Header = () => {
         >
           Admin
         </Link>
-        {/* {user && (
+        {user && (
           <button
-            onClick={handleLogout}
+            onClick={()=>{}}
             className=" right-10 bg-red-700 text-white font-medium text-lg px-5 h-10 w-28 rounded-3xl"
             type="submit"
           >
             Log out
           </button>
-        )} */}
+        )}
       </div>
     </nav>
   );

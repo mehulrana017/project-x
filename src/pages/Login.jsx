@@ -1,3 +1,4 @@
+import React from "react";
 import { useContext, useEffect } from "react";
 import { UserContext } from "../context/UserContext";
 import { AlertContext } from "../context/AlertContext";
@@ -36,7 +37,7 @@ function Login() {
   const onSubmit = async (userDetails) => {
     try {
       dispatchUser({ type: "LOADING" });
-      const res = await fetch("http://localhost:3000/api/v1/login", {
+      const res = await fetch("http://localhost:3000/api/v1/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
